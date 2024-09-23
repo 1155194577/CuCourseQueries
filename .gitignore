@@ -1,2 +1,3 @@
-/bakcend/.env
 /backend/node_modules   
+.env
+/backend/tests/setEnv.js
