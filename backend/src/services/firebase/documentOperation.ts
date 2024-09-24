@@ -1,5 +1,9 @@
 import { db } from "./firebaseApp";
-export async function addDoc(colName: string, docName: string | null, data: { [key: string]: any }): Promise<void> {
+export async function addDoc(
+  colName: string,
+  docName: string | null,
+  data: { [key: string]: any }
+): Promise<void> {
   try {
     const colRef = db.collection(colName);
     if (docName) {
@@ -19,7 +23,10 @@ export async function addDoc(colName: string, docName: string | null, data: { [k
 }
 
 // getDoc by DocName
-export async function getDoc(colName: string, docName: string): Promise<FirebaseFirestore.DocumentData | undefined> {
+export async function getDoc(
+  colName: string,
+  docName: string
+): Promise<FirebaseFirestore.DocumentData | undefined> {
   try {
     const docRef = db.collection(colName).doc(docName);
     const doc = await docRef.get();
@@ -27,10 +34,15 @@ export async function getDoc(colName: string, docName: string): Promise<Firebase
   } catch (error) {
     if (error instanceof Error) {
       console.log("getDoc error", error.message);
-    } 
-  }}
+    }
+  }
+}
 
-export async function updateDoc(colName: string, docName: string, kvpair: { [key: string]: any }): Promise<void> {
+export async function updateDoc(
+  colName: string,
+  docName: string,
+  kvpair: { [key: string]: any }
+): Promise<void> {
   const docRef = db.collection(colName).doc(docName);
   await docRef
     .update(kvpair)
@@ -42,7 +54,10 @@ export async function updateDoc(colName: string, docName: string, kvpair: { [key
     });
 }
 
-export async function delDoc(colName: string, docName: string): Promise<boolean> {
+export async function delDoc(
+  colName: string,
+  docName: string
+): Promise<boolean> {
   const docRef = db.collection(colName).doc(docName);
   const doc = await docRef.get();
   if (doc.exists) {
@@ -71,10 +86,9 @@ function main() {
   console.log("Testing documentOperation.ts");
   addDoc("users", "user1", { name: "user1", age: 20 });
   getDoc("users", "user1").then((data) => {
-    console.log(data,typeof data);
+    console.log(data, typeof data);
   });
-  delDoc( "users", "user1");
-  // updateDoc("users", "user1", { age: 21 }); 
-
+  delDoc("users", "user1");
+  // updateDoc("users", "user1", { age: 21 });
 }
-main();
+// main();
