@@ -1,5 +1,6 @@
-// src/middleware/corsMiddleware.js
-const corsMiddleware = (req, res, next) => {
+import { Request, Response, NextFunction } from 'express';
+
+const corsMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
   res.header(
     "Access-Control-Allow-Headers",
@@ -9,7 +10,8 @@ const corsMiddleware = (req, res, next) => {
 
   // Handle preflight requests
   if (req.method === "OPTIONS") {
-    return res.sendStatus(204); // No content for preflight
+    res.sendStatus(204); // No content for preflight
+    return;
   }
 
   next(); // Proceed to the next middleware or route handler

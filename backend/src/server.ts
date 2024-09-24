@@ -1,6 +1,7 @@
 import express from "express";
-import exampleRouter from "./routes/example_router.js";
-import corsMiddleware from "./middleware/cors.js";
+import exampleRouter from "./routes/example_router";
+import corsMiddleware from "./middleware/cors";
+
 
 const app = express();
 

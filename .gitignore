@@ -1,4 +1,4 @@
 /backend/node_modules   
 .env
 /backend/tests/setEnv.js
-backend/src/config/fireBaseKeyConfig.js
+backend/src/config/fireBaseKeyConfig.ts
