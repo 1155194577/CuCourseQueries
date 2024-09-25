@@ -65,6 +65,7 @@ export const LessonSchema = z.object({
     .array(z.string())
     .min(1, { message: "Instructors cannot be empty" }),
   meetingDates: z.array(DateSchema),
+  courseCode: z.string().optional(),
 });
 
 // example : {

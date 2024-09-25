@@ -1,10 +1,8 @@
 import {
   CoursesArrayType,
-  CourseSchema,
   CourseType,
   CoursesArraySchema,
   LessonType,
-  LessonMapSchema,
   TermMapSchema,
   TermMapType,
   LessonMapType,
@@ -12,19 +10,7 @@ import {
   LessonArrayType,
 } from "../../types/courses";
 import { asyncReadJsonFile } from "../../utils/fileIO";
-import { z } from "zod";
-const programmeNames: string[] = [
-  "AIST",
-  "CSCI",
-  "ELEG",
-  "ENGG",
-  "IERG",
-  "MATH",
-  "RMSC",
-  "SEEM",
-];
-
-export async function parseCourseData(
+async function parseCourseData(
   localDir: string
 ): Promise<CoursesArrayType | []> {
   try {
@@ -36,25 +22,25 @@ export async function parseCourseData(
     return [];
   }
 }
-
-//goal is to convert the course data array to lesson array
-async function convertCourseDataToLessons(
+async function convertCourseDataToLessonsAndCode(
   // input : CourseData
-  // output : the lessons map in a specific term (e.g 2024-25 Term 1)
+  // output : the lessons map in a specific term (e.g 2024-25 Term 1) and course Code
   courseData: CourseType
-): Promise<LessonMapType | {}> {
+): Promise<[LessonMapType | {}, string | ""]> {
   const hasTermData: boolean = courseData.terms !== undefined;
   // console.log(hasTermData);
   if (hasTermData) {
     const termMap: TermMapType = TermMapSchema.parse(courseData.terms);
     const lessonMap: LessonMapType = termMap["2024-25 Term 1"];
-    return lessonMap;
+    // console.log(lessonMap);
+    return [lessonMap, courseData.code];
   } else {
-    return {};
+    return [{}, ""];
   }
 }
 
-export async function convertCourseArrayToLessonArray(
+async function convertCourseArrayToLessonArray(
+  programName: string,
   courses: CoursesArrayType
 ): Promise<LessonArrayType | []> {
   const lessonArray: LessonArrayType = [];
@@ -62,37 +48,51 @@ export async function convertCourseArrayToLessonArray(
     return [];
   }
   for (const course of courses) {
-    const lessonMap: LessonMapType = await convertCourseDataToLessons(course);
-    // const courseIds: string[] = [];
-
-    if (lessonMap) {
-      const lessonMapKeys = Object.keys(lessonMap);
-      const tempData: LessonMapType = {};
+    const [lessonMap, courseCode]: [LessonMapType, string] =
+      await convertCourseDataToLessonsAndCode(course); // destructuring
+    if (courseCode === "" || !lessonMap) {
+      continue;
+    } else {
+      // console.log("bb", Object.keys(lessonMap).length, courseCode === "");
+      const lessonMapKeys: string[] = Object.keys(lessonMap);
       for (const lessonMapKey of lessonMapKeys) {
         const lessonData: LessonType = lessonMap[lessonMapKey];
-        tempData[lessonMapKey] = lessonData;
-        lessonArray.push(tempData);
+        lessonData["courseCode"] = programName + courseCode;
+        lessonArray.push({ [lessonMapKey]: lessonData });
       }
     }
   }
   if (LessonArraySchema.safeParse(lessonArray).success) {
-    // console.log("Data is valid : ", lessonArray.length);
+    console.log("Data is valid : ", lessonArray.length);
     return lessonArray;
   } else {
     return [];
   }
 }
 
-const getLessonsArrayFromJson = async (
-  localDir: string
+export const getLessonsArrayByProgramName = async (
+  programName: string
 ): Promise<LessonArrayType> => {
+  const localDir: string = `../../data/courses/${programName}.json`;
   const coursesArray: CoursesArrayType = await parseCourseData(localDir);
   const lessonArray: LessonArrayType = await convertCourseArrayToLessonArray(
+    programName,
     coursesArray
   );
   return lessonArray;
 };
 
-// for (const programmeName of programmeNames) {
-//   getLessonsArrayFromJson(`../../data/courses/${programmeName}.json`);
-// }
+for (const programName of [
+  "AIST",
+  "CSCI",
+  "ELEG",
+  "ENGG",
+  "IERG",
+  "MATH",
+  "RMSC",
+  "SEEM",
+]) {
+  getLessonsArrayByProgramName(programName).then((lessonsArray) => {
+    console.log(lessonsArray.length);
+  });
+}
