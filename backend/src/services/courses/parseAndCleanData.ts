@@ -11,7 +11,7 @@ import {
 } from "../../types/courses";
 import { asyncReadJsonFile } from "../../utils/fileIO";
 import { paths } from "../../constant/paths";
-
+import { parse } from "path";
 async function parseCourseData(
   localDir: string
 ): Promise<CoursesArrayType | []> {
@@ -19,11 +19,28 @@ async function parseCourseData(
     const rawCourseData: any = await asyncReadJsonFile<any>(localDir);
     const parsedCoursesArray: CoursesArrayType =
       CoursesArraySchema.parse(rawCourseData);
+    console.log(parsedCoursesArray.length);
     return parsedCoursesArray;
-  } catch (e) {
+  } catch (e: any) {
+    console.log(e.message);
     return [];
   }
 }
+//expected input :
+// [ '14:30', '14:30' ] [ '16:15', '15:15' ]
+// [ '15:30' ] [ '16:15' ]
+// [ '14:30', '14:30' ] [ '16:15', '15:15' ]
+// [ '15:30' ] [ '16:15' ]
+// [ 'TBA' ] [ 'TBA' ]
+function timeStringToMinutes(time: string): number {
+  // Time elpased since 00:00
+  if (time === "TBA") {
+    return 0;
+  }
+  const [hours, minutes] = time.split(":").map(Number);
+  return hours * 3600 + minutes * 60;
+}
+
 async function convertCourseDataToLessonsAndCode(
   // input : CourseData
   // output : the lessons map in a specific term (e.g 2024-25 Term 1) and course Code
@@ -33,14 +50,19 @@ async function convertCourseDataToLessonsAndCode(
   // console.log(hasTermData);
   if (hasTermData) {
     const termMap: TermMapType = TermMapSchema.parse(courseData.terms);
-    const lessonMap: LessonMapType = termMap["2024-25 Term 1"];
-    // console.log(lessonMap);
+    const lessonMap: LessonMapType = termMap["2024-25 Term 1"]; // TODO : change this to dynamic
     return [lessonMap, courseData.code];
   } else {
     return [{}, ""];
   }
 }
 
+const convertToNumbers = (arr: (string | number)[]): number[] => {
+  const newArr: number[] = arr.map((val) => {
+    return typeof val === "string" ? timeStringToMinutes(val) : val;
+  });
+  return newArr;
+};
 async function convertCourseArrayToLessonArray(
   programName: string,
   courses: CoursesArrayType
@@ -59,13 +81,15 @@ async function convertCourseArrayToLessonArray(
       const lessonMapKeys: string[] = Object.keys(lessonMap);
       for (const lessonMapKey of lessonMapKeys) {
         const lessonData: LessonType = lessonMap[lessonMapKey];
+        lessonData["startTimes"] = convertToNumbers(lessonData["startTimes"]);
+        lessonData["endTimes"] = convertToNumbers(lessonData["endTimes"]);
         lessonData["courseCode"] = programName + courseCode;
         lessonArray.push({ [lessonMapKey]: lessonData });
       }
     }
   }
   if (LessonArraySchema.safeParse(lessonArray).success) {
-    console.log("Data is valid : ", lessonArray.length);
+    // console.log("Data is valid : ", lessonArray.length);
     return lessonArray;
   } else {
     return [];
@@ -84,17 +108,12 @@ export const getLessonsArrayByProgramName = async (
   return lessonArray;
 };
 
-for (const programName of [
-  "AIST",
-  "CSCI",
-  "ELEG",
-  "ENGG",
-  "IERG",
-  "MATH",
-  "RMSC",
-  "SEEM",
-]) {
+// usage;
+for (const programName of ["ENGG", "SEEM"]) {
   getLessonsArrayByProgramName(programName).then((lessonsArray) => {
-    console.log(lessonsArray.length);
+    for (const lesson of lessonsArray) {
+      const lessonId = Object.keys(lesson)[0];
+      console.log(lesson[lessonId].startTimes, lesson[lessonId].endTimes);
+    }
   });
 }

@@ -18,45 +18,42 @@ export const DateSchema = z.preprocess(
   })
 );
 // example : "3/9"
-
 export const TimeSchema = z.object({
   start: z
     .array(
-      z.preprocess(
-        (val) => (typeof val === "string" ? Number(val) : val),
-        z.number()
-      )
+      z.string().transform((val) => {
+        const [hours, minutes] = val.split(":").map(Number);
+        return hours * 3600 + minutes * 60;
+      })
     )
-    .transform((arr) => arr.map((num) => (num >= 0 && num <= 23 ? num : NaN)))
     .refine((arr) => arr.every((num) => !isNaN(num)), {
-      message: "Start times must be between 0 and 23",
+      message: "Start times must be valid numbers",
     }),
   end: z
     .array(
-      z.preprocess(
-        (val) => (typeof val === "string" ? Number(val) : val),
-        z.number()
-      )
+      z.string().transform((val) => {
+        const [hours, minutes] = val.split(":").map(Number);
+        return hours * 3600 + minutes * 60;
+      })
     )
-    .transform((arr) => arr.map((num) => (num >= 0 && num <= 23 ? num : NaN)))
     .refine((arr) => arr.every((num) => !isNaN(num)), {
-      message: "End times must be between 0 and 23",
+      message: "End times must be valid numbers",
     }),
 });
-
-const handleDayValue = (val: string | number): any => {
+const TimeTestSchema = z.string().transform((val) => {
   if (typeof val === "string") {
-    return Number(val);
+    const [hours, minutes] = val.split(":").map(Number);
+    return hours * 3600 + minutes * 60;
+  } else if (typeof val === "number") {
+    return 4214112;
   }
-  if (isNaN(val)) {
-    return 0;
-  }
-  return val;
-};
+});
+// const stringToNumber = z.string().transform((val) => val.length);
 
 export const LessonSchema = z.object({
-  startTimes: z.array(z.string()),
-  endTimes: z.array(z.string()),
+  startTimes: z.array(z.union([z.string(), z.number()])),
+  endTimes: z.array(z.union([z.string(), z.number()])),
+  // endTimes: z.array(z.string().transform((val) => val.length)),
   day: z.array(z.union([z.string(), z.number()])).optional(),
   locations: z
     .array(z.string())
@@ -68,27 +65,6 @@ export const LessonSchema = z.object({
   courseCode: z.string().optional(),
 });
 
-// example : {
-//   startTimes: [10, 30],
-//   endTimes: [11, 15],
-//   days: [2],
-//   locations: ["Mong Man Wai Bldg 707"],
-//   instructors: ["Professor WANG Liwei"],
-//   meetingDates: [
-//     "3/9",
-//     "10/9",
-//     "17/9",
-//     "24/9",
-//     "8/10",
-//     "15/10",
-//     "22/10",
-//     "29/10",
-//     "5/11",
-//     "12/11",
-//     "19/11",
-//     "26/11",
-//   ],
-// },
 export const LessonMapSchema = z.record(z.string(), LessonSchema);
 
 export const LessonArraySchema = z.array(LessonMapSchema);
@@ -190,3 +166,18 @@ export type AssessmentType = z.infer<typeof AssessmentSchema>;
 export type CourseType = z.infer<typeof CourseSchema>;
 export type CoursesArrayType = z.infer<typeof CoursesArraySchema>;
 export type LessonArrayType = z.infer<typeof LessonArraySchema>;
+
+// function testLesson() {
+//   const lessonExample: LessonType = {
+//     startTimes: ["23:21", "23:33"],
+//     endTimes: ["23:21", "23:33"],
+//     day: [2],
+//     locations: ["Mong Man Wai Bldg 707"],
+//     instructors: ["Professor WANG Liwei"],
+//     meetingDates: [new Date(2022, 3 - 1, 4)],
+//   };
+//   console.log(LessonSchema.safeParse(lessonExample));
+// }
+
+// testLesson();
+//

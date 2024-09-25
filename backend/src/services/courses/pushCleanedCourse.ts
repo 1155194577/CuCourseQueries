@@ -1,4 +1,4 @@
-import { getLessonsArrayFromJson } from "./parseAndCleanData";
+import { getLessonsArrayByProgramName } from "./parseAndCleanData";
 import { addDoc } from "../firebase/documentOperation";
 // Parse Local Data and Push to Database
 const programmeNames: string[] = [
@@ -12,10 +12,11 @@ const programmeNames: string[] = [
   "SEEM",
 ];
 
-getLessonsArrayFromJson("../../data/courses/CSCI.json").then((lessonsArray) => {
-  console.log(lessonsArray);
-  for (const lesson of lessonsArray) {
-    const lessonId = Object.keys(lesson)[0];
-    addDoc("CSCI", lessonId, lesson[lessonId]);
-  }
-});
+for (const programName of programmeNames) {
+  getLessonsArrayByProgramName(programName).then((lessonsArray) => {
+    for (const lesson of lessonsArray) {
+      const lessonId = Object.keys(lesson)[0];
+      addDoc(programName, lessonId, lesson[lessonId]);
+    }
+  });
+}
