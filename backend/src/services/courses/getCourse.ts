@@ -7,6 +7,9 @@ import {
 } from "../../types/courses";
 import { Course } from "../../types/courses";
 import { addDoc, getDoc } from "../firebase/documentOperation";
+// program Code => CourseData.
+//CourseData + TermName => lessonNumbers
+//lessonNumber => lessonData
 
 export async function getCourseDataByProgramCode(
   programName: string,
@@ -15,10 +18,7 @@ export async function getCourseDataByProgramCode(
   //e.g given AIST , 2010 => return course data
   try {
     const courseData: any = await getDoc(programName, courseCode);
-    // console.log(courseData);
-    // const isSuccessful = CourseSchema.safeParse(courseData).success;
-    // CourseSchema.parse(courseData);
-    const isSuccessful = true;
+    const isSuccessful = CourseSchema.safeParse(courseData).success;
     if (!isSuccessful) {
       throw new Error("Invalid course data");
     }
@@ -33,8 +33,14 @@ export async function getClassesNumbersByTermId(
 ): Promise<string[]> {
   // given course data and term name, return class numbers available in that term
   try {
-    const semestersCourseData = courseData.terms;
+    const semestersCourseData = courseData?.terms;
+    if (!semestersCourseData) {
+      throw new Error("Invalid course data");
+    }
     const semesterCourseData = semestersCourseData[termName];
+    if (!semesterCourseData) {
+      throw new Error("Invalid term name");
+    }
     const classNumbers = Object.keys(semesterCourseData);
     return classNumbers;
   } catch (error) {

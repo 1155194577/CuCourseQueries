@@ -1,9 +1,10 @@
 import { db } from "./firebaseApp";
+
 export async function addDoc(
   colName: string,
   docName: string | null,
   data: { [key: string]: any }
-): Promise<void> {
+): Promise<boolean> {
   try {
     const colRef = db.collection(colName);
     if (docName) {
@@ -17,8 +18,12 @@ export async function addDoc(
         console.log("document created with docId", colName, req.id);
       });
     }
+    return true;
   } catch (error) {
-    throw error;
+    if (error instanceof Error) {
+      console.log("addDoc error", error.message);
+    }
+    return false;
   }
 }
 
@@ -26,7 +31,7 @@ export async function addDoc(
 export async function getDoc(
   colName: string,
   docName: string
-): Promise<FirebaseFirestore.DocumentData | undefined> {
+): Promise<{ [key: string]: any } | undefined> {
   try {
     const docRef = db.collection(colName).doc(docName);
     const doc = await docRef.get();
@@ -71,16 +76,24 @@ export async function delDoc(
   }
 }
 
-// export async function getDocByQuery(colName: string, firstQuery: [string, FirebaseFirestore.WhereFilterOp, any], secondQuery?: [string, FirebaseFirestore.WhereFilterOp, any]): Promise<FirebaseFirestore.DocumentData[]> {
-//   const colRef = db.collection(colName);
-//   let query: FirebaseFirestore.Query = colRef.where(firstQuery[0], firstQuery[1], firstQuery[2]);
-//   if (secondQuery) {
-//     query = query.where(secondQuery[0], secondQuery[1], secondQuery[2]);
-//   }
-//   const querySnapshot = await query.get();
-//   const data = querySnapshot.docs.map((doc) => doc.data());
-//   return data;
-// }
+export async function getDocByQuery(
+  colName: string,
+  firstQuery: [string, FirebaseFirestore.WhereFilterOp, any],
+  secondQuery?: [string, FirebaseFirestore.WhereFilterOp, any]
+): Promise<FirebaseFirestore.DocumentData[]> {
+  const colRef = db.collection(colName);
+  let query: FirebaseFirestore.Query = colRef.where(
+    firstQuery[0],
+    firstQuery[1],
+    firstQuery[2]
+  );
+  if (secondQuery) {
+    query = query.where(secondQuery[0], secondQuery[1], secondQuery[2]);
+  }
+  const querySnapshot = await query.get();
+  const data = querySnapshot.docs.map((doc) => doc.data());
+  return data;
+}
 
 function main() {
   console.log("Testing documentOperation.ts");
@@ -91,4 +104,4 @@ function main() {
   delDoc("users", "user1");
   // updateDoc("users", "user1", { age: 21 });
 }
-// main();
+main();

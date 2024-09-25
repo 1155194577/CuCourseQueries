@@ -1,8 +1,8 @@
-import { promises as fs } from 'fs';
+import { promises as fs } from "fs";
 
-export async function readJsonFile(filePath: string): Promise<object> {
+export async function readJsonFile(filePath: string): Promise<any> {
   try {
-    const data = await fs.readFile(filePath, 'utf-8');
+    const data = await fs.readFile(filePath, "utf-8");
     return JSON.parse(data);
   } catch (error) {
     console.error("Error reading JSON file:", error);
