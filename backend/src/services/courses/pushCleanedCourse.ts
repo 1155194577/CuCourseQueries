@@ -16,6 +16,7 @@ for (const programName of programmeNames) {
   getLessonsArrayByProgramName(programName).then((lessonsArray) => {
     for (const lesson of lessonsArray) {
       const lessonId = Object.keys(lesson)[0];
+      // console.log()
       addDoc(programName, lessonId, lesson[lessonId]);
     }
   });

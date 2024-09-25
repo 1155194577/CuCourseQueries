@@ -54,7 +54,7 @@ export const LessonSchema = z.object({
   startTimes: z.array(z.union([z.string(), z.number()])),
   endTimes: z.array(z.union([z.string(), z.number()])),
   // endTimes: z.array(z.string().transform((val) => val.length)),
-  day: z.array(z.union([z.string(), z.number()])).optional(),
+  days: z.array(z.union([z.string(), z.number()])).optional(),
   locations: z
     .array(z.string())
     .min(1, { message: "Locations cannot be empty" }),

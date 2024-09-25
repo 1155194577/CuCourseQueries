@@ -19,10 +19,10 @@ async function parseCourseData(
     const rawCourseData: any = await asyncReadJsonFile<any>(localDir);
     const parsedCoursesArray: CoursesArrayType =
       CoursesArraySchema.parse(rawCourseData);
-    console.log(parsedCoursesArray.length);
+    // console.log(parsedCoursesArray.length);
     return parsedCoursesArray;
   } catch (e: any) {
-    console.log(e.message);
+    // console.log(e.message);
     return [];
   }
 }
@@ -32,6 +32,23 @@ async function parseCourseData(
 // [ '14:30', '14:30' ] [ '16:15', '15:15' ]
 // [ '15:30' ] [ '16:15' ]
 // [ 'TBA' ] [ 'TBA' ]
+function dayStringToNumber(days: (number | string)[] | undefined): number[] {
+  const ans: number[] = [];
+  if (!days) {
+    return ans;
+  }
+  for (const i in days) {
+    if (days[i] === "TBA") {
+      ans.push(-1);
+    } else {
+      if (typeof days[i] === "number") {
+        ans.push(days[i]);
+      }
+    }
+  }
+  return ans;
+}
+
 function timeStringToMinutes(time: string): number {
   // Time elpased since 00:00
   if (time === "TBA") {
@@ -47,7 +64,6 @@ async function convertCourseDataToLessonsAndCode(
   courseData: CourseType
 ): Promise<[LessonMapType | {}, string | ""]> {
   const hasTermData: boolean = courseData.terms !== undefined;
-  // console.log(hasTermData);
   if (hasTermData) {
     const termMap: TermMapType = TermMapSchema.parse(courseData.terms);
     const lessonMap: LessonMapType = termMap["2024-25 Term 1"]; // TODO : change this to dynamic
@@ -77,10 +93,12 @@ async function convertCourseArrayToLessonArray(
     if (courseCode === "" || !lessonMap) {
       continue;
     } else {
-      // console.log("bb", Object.keys(lessonMap).length, courseCode === "");
+      // console.log("bb", Object.keys(lessonMap), courseCode === "");
       const lessonMapKeys: string[] = Object.keys(lessonMap);
       for (const lessonMapKey of lessonMapKeys) {
         const lessonData: LessonType = lessonMap[lessonMapKey];
+        lessonData["days"] = dayStringToNumber(lessonData["days"]);
+        // convert days to numbers
         lessonData["startTimes"] = convertToNumbers(lessonData["startTimes"]);
         lessonData["endTimes"] = convertToNumbers(lessonData["endTimes"]);
         lessonData["courseCode"] = programName + courseCode;
@@ -109,11 +127,10 @@ export const getLessonsArrayByProgramName = async (
 };
 
 // usage;
-for (const programName of ["ENGG", "SEEM"]) {
-  getLessonsArrayByProgramName(programName).then((lessonsArray) => {
-    for (const lesson of lessonsArray) {
-      const lessonId = Object.keys(lesson)[0];
-      console.log(lesson[lessonId].startTimes, lesson[lessonId].endTimes);
-    }
-  });
-}
+// for (const programName of ["ENGG", "SEEM"]) {
+//   getLessonsArrayByProgramName(programName).then((lessonsArray) => {
+//     for (const lesson of lessonsArray) {
+//       const lessonId = Object.keys(lesson)[0];
+//     }
+//   });
+// }
