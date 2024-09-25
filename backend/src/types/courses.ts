@@ -66,6 +66,7 @@ export const LessonSchema = z.object({
     .min(1, { message: "Instructors cannot be empty" }),
   meetingDates: z.array(DateSchema),
 });
+
 // example : {
 //   startTimes: [10, 30],
 //   endTimes: [11, 15],
@@ -87,9 +88,11 @@ export const LessonSchema = z.object({
 //     "26/11",
 //   ],
 // },
-export const LessonArraySchema = z.record(z.string(), LessonSchema);
+export const LessonMapSchema = z.record(z.string(), LessonSchema);
 
-export const TermArraySchema = z.record(z.string(), LessonArraySchema);
+export const LessonArraySchema = z.array(LessonMapSchema);
+
+export const TermMapSchema = z.record(z.string(), LessonMapSchema);
 
 const aist1000terms = {
   "2024-25 Term 1": {
@@ -154,7 +157,9 @@ export const CourseSchema = z.object({
   code: z.string().nonempty({ message: "Course code cannot be empty" }),
   title: z.string().nonempty({ message: "Course title cannot be empty" }),
   career: z.string().nonempty({ message: "Career cannot be empty" }),
-  units: z.string().nonempty({ message: "Units cannot be empty" }),
+  units: z.string().transform((val) => {
+    return Number(val);
+  }),
   grading: z.string().nonempty({ message: "Grading cannot be empty" }),
   components: z.string().nonempty({ message: "Components cannot be empty" }),
   campus: z.string().nonempty({ message: "Campus cannot be empty" }),
@@ -169,7 +174,7 @@ export const CourseSchema = z.object({
   syllabus: z.string().optional(),
   required_readings: z.string().optional(),
   recommended_readings: z.string().optional(),
-  terms: TermArraySchema.optional(),
+  terms: TermMapSchema.optional(),
   assessments: AssessmentSchema.optional(),
 });
 
@@ -178,8 +183,9 @@ export const CoursesArraySchema = z.array(CourseSchema);
 export type DateType = z.infer<typeof DateSchema>;
 export type TimeType = z.infer<typeof TimeSchema>;
 export type LessonType = z.infer<typeof LessonSchema>;
-export type LessonArrayType = z.infer<typeof LessonArraySchema>;
-export type TermArrayType = z.infer<typeof TermArraySchema>;
+export type LessonMapType = z.infer<typeof LessonMapSchema>;
+export type TermMapType = z.infer<typeof TermMapSchema>;
 export type AssessmentType = z.infer<typeof AssessmentSchema>;
 export type CourseType = z.infer<typeof CourseSchema>;
 export type CoursesArrayType = z.infer<typeof CoursesArraySchema>;
+export type LessonArrayType = z.infer<typeof LessonArraySchema>;
