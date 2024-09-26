@@ -97,6 +97,31 @@ paths:
                   - campus
                   - academic_group
                   - requirements
+  /coursesId: 
+     get:
+      summary: Get all course ids by program name
+      parameters:
+        - in: query
+          name: programName
+          schema:
+            type: string
+          description: Programme Name
+          example: "CSCI"
+          required: false
+      responses:
+        "200":
+          description: A json object containing a list of course ids of program name 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  courseIds:
+                    type: array
+                    items:
+                      type: string
+                required:
+                  - courseIds
 components:
   schemas:
     LessonSchema:

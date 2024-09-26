@@ -4,11 +4,10 @@ import {
   getCourseRequestType,
   ErrorSchema,
   ErrorType,
-} from "../types/controller";
+} from "../types/getCourses";
 import { getDoc } from "../services/firebase/documentOperation";
 import { dbName } from "../constant/db";
-import { CoursesArraySchema, CourseType } from "../types/courses";
-import z from "zod";
+import { CourseSchema, CourseType } from "../types/courses";
 import { getAllDocs } from "../services/firebase/documentsOperation";
 export const getCourseController = async (
   req: Request,
@@ -28,8 +27,9 @@ export const getCourseController = async (
         courseRequest.programName,
         courseRequest.courseCode
       );
-      if (courseData) {
-        res.json(courseData);
+      const parsedCourseData: CourseType = CourseSchema.parse(courseData);
+      if (parsedCourseData) {
+        res.json({ courseArrayData: parsedCourseData });
       } else {
         throw new Error("Course not found");
       }

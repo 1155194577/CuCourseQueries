@@ -9,6 +9,27 @@ import { dbMap } from "./firebaseApp";
 //   }
 //   return data;
 // }
+export async function getAllCollectionsIds(dbName: string): Promise<string[]> {
+  const db: FirebaseFirestore.Firestore = dbMap[dbName];
+  const collections = await db.listCollections();
+  const arr: string[] = collections.map((col) => col.id);
+  return arr;
+}
+
+export async function getAllDocsIds(
+  dbName: string,
+  colName: string
+): Promise<string[]> {
+  const db: FirebaseFirestore.Firestore = dbMap[dbName];
+  const colRef: FirebaseFirestore.CollectionReference = db.collection(colName);
+  const documents = await colRef.get();
+  if (documents.empty) {
+    console.log("No matching documents.");
+    return [];
+  }
+  const arr: string[] = documents.docs.map((doc: any) => doc.id);
+  return arr;
+}
 
 export async function getAllDocs(
   dbName: string,
