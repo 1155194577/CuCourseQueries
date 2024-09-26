@@ -11,6 +11,7 @@ const projectRoot = path.resolve(__dirname, "../");
 // Define other paths relative to the project root
 export const paths = {
   coursesFolder: path.join(projectRoot, "data/courses"),
+  configFolder: path.join(projectRoot, "config"),
 };
 
 // /Users/hejinyu/Projects/cuCourseMap/backend/src/data

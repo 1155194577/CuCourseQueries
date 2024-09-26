@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: cuCourseMap API
+  description: API documentation for cuCourseMap backend
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+paths:
+  /courses:
+    get:
+      summary: Get all courses
+      responses:
+        "200":
+          description: A list of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Course"
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The course ID
+        name:
+          type: string
+          description: The course name
+        description:
+          type: string
+          description: The course description
+      required:
+        - id
+        - name
