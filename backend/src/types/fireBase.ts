@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const FireBaseKeySchema = z.object({
   type: z.string(),
@@ -14,4 +14,4 @@ const FireBaseKeySchema = z.object({
   universe_domain: z.string(),
 });
 
-type FireBaseKey = z.infer<typeof FireBaseKeySchema>;
+export type FireBaseKeyType = z.infer<typeof FireBaseKeySchema>;

@@ -1,14 +1,25 @@
 {
   "compilerOptions": {
     "target": "ES6", // or ESNext
-    "module": "ESNext",
+    "module": "ESNext", // This is fine if you're using ES modules
     "moduleResolution": "node",
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true // Add this for better compatibility
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
+// {
+//   "compilerOptions": {
+//     "target": "es6",
+//     "module": "commonjs",
+//     "outDir": "dist",
+//     "strict": true,
+//     "sourceMap": true,
+//     "esModuleInterop": true
+//   }
+// }

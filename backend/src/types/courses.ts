@@ -4,6 +4,11 @@ import { z } from "zod";
 // difference between z.object() and z.record()
 // z.object() is used when : Fixed keys and specified types + keys can be of different types
 // z.record() is used when : Dynamic keys + and all values are of same type
+export const timeStampSchema = z.object({
+  seconds: z.number(),
+  nanoseconds: z.number(),
+});
+
 export const DateSchema = z.preprocess(
   (val) => {
     if (typeof val === "string") {
@@ -53,7 +58,6 @@ const TimeTestSchema = z.string().transform((val) => {
 export const LessonSchema = z.object({
   startTimes: z.array(z.union([z.string(), z.number()])),
   endTimes: z.array(z.union([z.string(), z.number()])),
-  // endTimes: z.array(z.string().transform((val) => val.length)),
   days: z.array(z.union([z.string(), z.number()])).optional(),
   locations: z
     .array(z.string())
@@ -61,7 +65,7 @@ export const LessonSchema = z.object({
   instructors: z
     .array(z.string())
     .min(1, { message: "Instructors cannot be empty" }),
-  meetingDates: z.array(DateSchema),
+  meetingDates: z.array(z.union([DateSchema, timeStampSchema])),
   courseCode: z.string().optional(),
 });
 
@@ -129,14 +133,16 @@ export const AssessmentSchema = z.record(
 //   Project: 50,
 //   Participation: 30,
 // },
-
 export const CourseSchema = z.object({
   code: z.string().nonempty({ message: "Course code cannot be empty" }),
   title: z.string().nonempty({ message: "Course title cannot be empty" }),
   career: z.string().nonempty({ message: "Career cannot be empty" }),
-  units: z.string().transform((val) => {
-    return Number(val);
-  }),
+  units: z.preprocess(
+    (val) => (typeof val === "string" ? Number(val) : val),
+    z
+      .number()
+      .refine((val) => !isNaN(val), { message: "Units must be a number" })
+  ),
   grading: z.string().nonempty({ message: "Grading cannot be empty" }),
   components: z.string().nonempty({ message: "Components cannot be empty" }),
   campus: z.string().nonempty({ message: "Campus cannot be empty" }),

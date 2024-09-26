@@ -37,7 +37,6 @@ export async function getDoc(
 ): Promise<{ [key: string]: any } | undefined> {
   try {
     const db: FirebaseFirestore.Firestore = dbMap[dbName];
-    console.log("db", db);
     const docRef = db.collection(colName).doc(docName);
     const doc = await docRef.get();
     console.log(doc.exists);
@@ -45,6 +44,7 @@ export async function getDoc(
   } catch (error) {
     if (error instanceof Error) {
       console.log("getDoc error", error.message);
+      return undefined;
     }
   }
 }

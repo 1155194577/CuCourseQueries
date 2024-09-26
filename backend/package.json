@@ -7,7 +7,8 @@
     "test": "jest"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
+    "test detect":"jest --detectOpenHandles",
     "dev": "esno --watch index.ts",
     "build": "tsc"
   },
@@ -29,19 +30,18 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@babel/register": "^7.24.6",
+    "@jest/globals": "^29.7.0",
     "@types/dotenv": "^6.1.1",
     "@types/firebase": "^2.4.32",
+    "@types/jest": "^29.5.13",
     "@types/node": "^22.5.5",
     "@types/yamljs": "^0.2.34",
+    "babel-jest": "^29.7.0",
     "dotenv": "^16.4.5",
     "esno": "^4.7.0",
     "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
-  },
-  "jest": {
-    "setupFiles": [
-      "./tests/setEnv.ts"
-    ]
   }
 }

@@ -12,6 +12,7 @@ const projectRoot = path.resolve(__dirname, "../");
 export const paths = {
   coursesFolder: path.join(projectRoot, "data/courses"),
   configFolder: path.join(projectRoot, "config"),
+  constFolder: path.join(projectRoot, "constant"),
 };
 
 // /Users/hejinyu/Projects/cuCourseMap/backend/src/data
