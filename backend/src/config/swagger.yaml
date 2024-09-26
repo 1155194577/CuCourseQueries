@@ -9,41 +9,159 @@ servers:
 paths:
   /courses:
     get:
-      summary: Get all courses
+      summary: Get courses by program name and course code
       parameters:
         - in: query
           name: programName
           schema:
             type: string
           description: Programme Name
+          example: "CSCI"
+          required: true
         - in: query
           name: courseCode
           schema:
             type: string
           description: Course Code
+          example: "3230"
+          required: false
       responses:
         "200":
-          description: A list of courses
+          description: A json object containing course data
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Course"
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Course code
+                  title:
+                    type: string
+                    description: Course title
+                  career:
+                    type: string
+                    description: Career
+                  units:
+                    type: number
+                    description: Units
+                  grading:
+                    type: string
+                    description: Grading
+                  components:
+                    type: string
+                    description: Components
+                  campus:
+                    type: string
+                    description: Campus
+                  academic_group:
+                    type: string
+                    description: Academic group
+                  requirements:
+                    type: string
+                    description: Requirements
+                    example: "requirement_not_found"
+                  description:
+                    type: string
+                    description: Description
+                    nullable: true
+                  outcome:
+                    type: string
+                    description: Outcome
+                    nullable: true
+                  syllabus:
+                    type: string
+                    description: Syllabus
+                    nullable: true
+                  required_readings:
+                    type: string
+                    description: Required readings
+                    nullable: true
+                  recommended_readings:
+                    type: string
+                    description: Recommended readings
+                    nullable: true
+                  terms:
+                    $ref: "#/components/schemas/TermMapSchema"
+                    nullable: true
+                  assessments:
+                    $ref: "#/components/schemas/AssessmentSchema"
+                    nullable: true
+                required:
+                  - code
+                  - title
+                  - career
+                  - units
+                  - grading
+                  - components
+                  - campus
+                  - academic_group
+                  - requirements
 components:
   schemas:
-    Course:
+    LessonSchema:
       type: object
       properties:
-        id:
+        startTimes:
+          type: array
+            - type: number
+          description: Start time of the lesson (time elapsed since 00:00)
+        endTimes:
+          type: array
+            - type: number
+          description: End time of the lesson (time elapsed since 00:00)
+        days:
+          type: array
+            - type: number
+          description: Days of the week when the lessons are held
+        locations:
+          type: array
+            type: string
+          description: Locations where the lessons are held
+        instructors:
+          type: array
+            type: string
+          description: Instructors of the course
+        meetingDates:
+          type: array
+          items:
+             $ref: "#/components/schemas/TimeStampSchema"
+          description: Meeting dates (DateTime object)
+        courseCode:
           type: string
-          description: The course ID
-        name:
-          type: string
-          description: The course name
-        description:
-          type: string
-          description: The course description
+          description: Course code
+          # nullable: true
       required:
-        - id
-        - name
+        - startTimes
+        - endTimes
+        - locations
+        - instructors
+        - meetingDates
+
+    LessonMapSchema:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/LessonSchema"
+
+    TermMapSchema:
+      type: object
+      description: | 
+          KEY
+      additionalProperties:
+        $ref: "#/components/schemas/LessonMapSchema"
+
+    AssessmentSchema:
+      type: object
+      additionalProperties:
+        type: number
+        nullable: true
+
+    TimeStampSchema:
+      type: object
+      properties:
+        _seconds:
+          type: integer
+          description: The number of seconds since the Unix epoch (January 1, 1970).
+        _nanoseconds:
+          type: integer
+          description: The number of nanoseconds after the number of seconds.
