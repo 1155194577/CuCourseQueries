@@ -12,7 +12,7 @@ import {
 import { asyncReadJsonFile } from "../../utils/fileIO";
 import { paths } from "../../constant/paths";
 import { parse } from "path";
-async function parseCourseData(
+export async function parseCourseData(
   localDir: string
 ): Promise<CoursesArrayType | []> {
   try {

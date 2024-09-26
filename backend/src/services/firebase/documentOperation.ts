@@ -1,11 +1,13 @@
-import { db } from "./firebaseApp";
+import { dbMap } from "./firebaseApp";
 
 export async function addDoc(
+  dbName: string,
   colName: string,
   docName: string | null,
   data: { [key: string]: any }
 ): Promise<boolean> {
   try {
+    const db: FirebaseFirestore.Firestore = dbMap[dbName];
     const colRef = db.collection(colName);
     if (docName) {
       const docRef = colRef.doc(docName);
@@ -29,10 +31,12 @@ export async function addDoc(
 
 // getDoc by DocName
 export async function getDoc(
+  dbName: string,
   colName: string,
   docName: string
 ): Promise<{ [key: string]: any } | undefined> {
   try {
+    const db: FirebaseFirestore.Firestore = dbMap[dbName];
     const docRef = db.collection(colName).doc(docName);
     const doc = await docRef.get();
     if (doc.exists) return doc.data();
@@ -44,10 +48,12 @@ export async function getDoc(
 }
 
 export async function updateDoc(
+  dbName: string,
   colName: string,
   docName: string,
   kvpair: { [key: string]: any }
 ): Promise<void> {
+  const db: FirebaseFirestore.Firestore = dbMap[dbName];
   const docRef = db.collection(colName).doc(docName);
   await docRef
     .update(kvpair)
@@ -60,9 +66,11 @@ export async function updateDoc(
 }
 
 export async function delDoc(
+  dbName: string,
   colName: string,
   docName: string
 ): Promise<boolean> {
+  const db: FirebaseFirestore.Firestore = dbMap[dbName];
   const docRef = db.collection(colName).doc(docName);
   const doc = await docRef.get();
   if (doc.exists) {
@@ -76,32 +84,32 @@ export async function delDoc(
   }
 }
 
-export async function getDocByQuery(
-  colName: string,
-  firstQuery: [string, FirebaseFirestore.WhereFilterOp, any],
-  secondQuery?: [string, FirebaseFirestore.WhereFilterOp, any]
-): Promise<FirebaseFirestore.DocumentData[]> {
-  const colRef = db.collection(colName);
-  let query: FirebaseFirestore.Query = colRef.where(
-    firstQuery[0],
-    firstQuery[1],
-    firstQuery[2]
-  );
-  if (secondQuery) {
-    query = query.where(secondQuery[0], secondQuery[1], secondQuery[2]);
-  }
-  const querySnapshot = await query.get();
-  const data = querySnapshot.docs.map((doc) => doc.data());
-  return data;
-}
+// export async function getDocByQuery(
+//   colName: string,
+//   firstQuery: [string, FirebaseFirestore.WhereFilterOp, any],
+//   secondQuery?: [string, FirebaseFirestore.WhereFilterOp, any]
+// ): Promise<FirebaseFirestore.DocumentData[]> {
+//   const colRef = db.collection(colName);
+//   let query: FirebaseFirestore.Query = colRef.where(
+//     firstQuery[0],
+//     firstQuery[1],
+//     firstQuery[2]
+//   );
+//   if (secondQuery) {
+//     query = query.where(secondQuery[0], secondQuery[1], secondQuery[2]);
+//   }
+//   const querySnapshot = await query.get();
+//   const data = querySnapshot.docs.map((doc) => doc.data());
+//   return data;
+// }
 
-function main() {
-  console.log("Testing documentOperation.ts");
-  addDoc("users", "user1", { name: "user1", age: 20 });
-  getDoc("users", "user1").then((data) => {
-    console.log(data, typeof data);
-  });
-  delDoc("users", "user1");
-  // updateDoc("users", "user1", { age: 21 });
-}
-main();
+// function main() {
+//   console.log("Testing documentOperation.ts");
+//   addDoc(dbName.default,"users", "user1", { name: "user1", age: 20 });
+//   getDoc("users", "user1").then((data) => {
+//     console.log(data, typeof data);
+//   });
+//   delDoc("users", "user1");
+//   // updateDoc("users", "user1", { age: 21 });
+// }
+// main();
