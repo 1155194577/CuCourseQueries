@@ -3,6 +3,8 @@ import { getDocByQuery } from "../services/firebase/documentOperation";
 import { WhereFilterOp } from "firebase-admin/firestore";
 import { FireBaseQueryType, fireBaseQuerySchema } from "../types/fireBaseQuery";
 import { CourseSchema, LessonSchema } from "../types/courses";
+import app from "../server";
+import request from "supertest";
 describe("test query", () => {
   test("should parse with success", () => {
     const testData: any = {
@@ -74,5 +76,23 @@ describe("test query", () => {
     console.log(parsedCourseData);
     expect(parsedCourseData.success).toEqual(true);
     expect(parsedCourseData.data.days).toContain(4);
+  });
+
+  test("test qeury api", async () => {
+    const testQuery: any = {
+      field: "courseCode",
+      operator: "==",
+      value: "ENGG2720",
+    };
+    const postData = {
+      queries: [testQuery],
+    };
+    console.log(postData);
+    const response = await request(app).post("/api/v1/queries").send(postData);
+    console.log(response.body);
+    expect(response).toBeDefined();
+    expect(response.status).toBe(200);
+    const firstMatch: any = response.body.matches[0];
+    expect(LessonSchema.safeParse(firstMatch).success).toEqual(true);
   });
 });

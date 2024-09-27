@@ -9,6 +9,8 @@ import swaggerUi from "swagger-ui-express";
 const app = express();
 
 app.use(corsMiddleware);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // app.use("/docs", swaggerUi.serve, swaggerUi.setup(yaml));
 app.use("/api/v1", courseRouter);
 
