@@ -90,18 +90,18 @@ export async function delDoc(
 export async function getDocByQuery(
   dbName: string,
   colName: string,
-  fireBaseQuery: FireBaseQueryType
+  fireBaseQuerys: FireBaseQueryType[]
 ): Promise<FirebaseFirestore.DocumentData[]> {
   const db: FirebaseFirestore.Firestore = dbMap[dbName];
-  const colRef = db.collection(colName);
-  let query: FirebaseFirestore.Query = colRef.where(
-    fireBaseQuery.field,
-    fireBaseQuery.operator,
-    fireBaseQuery.value
-  );
-  // if (secondQuery) {
-  //   query = query.where(secondQuery[0], secondQuery[1], secondQuery[2]);
-  // }
+  let colRef = db.collection(colName);
+  let query: FirebaseFirestore.Query = colRef;
+  for (const fireBaseQuery of fireBaseQuerys) {
+    query = query.where(
+      fireBaseQuery.field,
+      fireBaseQuery.operator,
+      fireBaseQuery.value
+    );
+  }
   const querySnapshot = await query.get();
   const data = querySnapshot.docs.map((doc) => doc.data());
   return data;

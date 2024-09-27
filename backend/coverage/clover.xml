@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727440770483" clover="3.2.0">
-  <project timestamp="1727440770483" name="All files">
-    <metrics statements="214" coveredstatements="122" conditionals="33" coveredconditionals="5" methods="41" coveredmethods="17" elements="288" coveredelements="144" complexity="0" loc="214" ncloc="214" packages="8" files="17" classes="17"/>
+<coverage generated="1727442020488" clover="3.2.0">
+  <project timestamp="1727442020488" name="All files">
+    <metrics statements="216" coveredstatements="124" conditionals="33" coveredconditionals="5" methods="41" coveredmethods="17" elements="290" coveredelements="146" complexity="0" loc="216" ncloc="216" packages="8" files="17" classes="17"/>
     <package name="src">
       <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="server.ts" path="/Users/hejinyu/Projects/cuCourseMap/backend/src/server.ts">
@@ -134,9 +134,9 @@
       </file>
     </package>
     <package name="src.services.firebase">
-      <metrics statements="79" coveredstatements="47" conditionals="9" coveredconditionals="1" methods="17" coveredmethods="9"/>
+      <metrics statements="81" coveredstatements="49" conditionals="9" coveredconditionals="1" methods="17" coveredmethods="9"/>
       <file name="documentOperation.ts" path="/Users/hejinyu/Projects/cuCourseMap/backend/src/services/firebase/documentOperation.ts">
-        <metrics statements="46" coveredstatements="18" conditionals="7" coveredconditionals="1" methods="11" coveredmethods="3"/>
+        <metrics statements="48" coveredstatements="20" conditionals="7" coveredconditionals="1" methods="11" coveredmethods="3"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -177,12 +177,14 @@
         <line num="83" count="0" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
         <line num="90" count="2" type="stmt"/>
-        <line num="95" count="1" type="stmt"/>
-        <line num="96" count="1" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="105" count="1" type="stmt"/>
-        <line num="106" count="2" type="stmt"/>
-        <line num="107" count="1" type="stmt"/>
+        <line num="95" count="3" type="stmt"/>
+        <line num="96" count="3" type="stmt"/>
+        <line num="97" count="3" type="stmt"/>
+        <line num="98" count="3" type="stmt"/>
+        <line num="99" count="4" type="stmt"/>
+        <line num="105" count="3" type="stmt"/>
+        <line num="106" count="158" type="stmt"/>
+        <line num="107" count="3" type="stmt"/>
       </file>
       <file name="documentsOperation.ts" path="/Users/hejinyu/Projects/cuCourseMap/backend/src/services/firebase/documentsOperation.ts">
         <metrics statements="25" coveredstatements="21" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="6"/>
@@ -238,11 +240,11 @@
         <line num="1" count="2" type="stmt"/>
         <line num="7" count="2" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
-        <line num="14" count="446" type="cond" truecount="0" falsecount="1"/>
+        <line num="14" count="473" type="cond" truecount="0" falsecount="1"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
-        <line num="19" count="446" type="stmt"/>
+        <line num="19" count="473" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="26" count="2" type="stmt"/>
         <line num="30" count="0" type="stmt"/>

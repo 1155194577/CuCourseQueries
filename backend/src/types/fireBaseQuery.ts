@@ -14,6 +14,6 @@ const queryOperatorsSchema = z.enum([
 export const fireBaseQuerySchema = z.object({
   field: z.string(),
   operator: queryOperatorsSchema,
-  value: z.string(),
+  value: z.union([z.string(), z.number()]),
 });
 export type FireBaseQueryType = z.infer<typeof fireBaseQuerySchema>;
