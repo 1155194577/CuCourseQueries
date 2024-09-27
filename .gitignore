@@ -2,3 +2,4 @@
 .env
 /backend/tests/setEnv.js
 backend/src/config/fireBaseKeyConfig.ts
+/backend/coverage
