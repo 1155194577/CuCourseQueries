@@ -2,6 +2,8 @@ import { getDoc } from "../services/firebase/documentOperation";
 import { dbName } from "../constant/db";
 import { CoursesArraySchema, CourseSchema } from "../types/courses";
 import { getAllDocs } from "../services/firebase/documentsOperation";
+import request from "supertest";
+import app from "../server";
 describe("getDoc", () => {
   test("should give 2+2 = 4", () => {
     expect(2 + 2).toBe(4);
@@ -18,5 +20,11 @@ describe("getDoc", () => {
     expect(res).toBeDefined();
     expect(res.length).toBeGreaterThan(0);
     expect(CoursesArraySchema.safeParse(res).success).toEqual(true);
+  });
+
+  test("example test", async () => {
+    const response = await request(app).get("/api/v1/example");
+    expect(response).toBeDefined();
+    expect(response.status).toBe(200);
   });
 });

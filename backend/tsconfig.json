@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6", // or ESNext
-    "module": "ESNext", // This is fine if you're using ES modules
+    "module": "esnext", // This is fine if you're using ES modules
     "moduleResolution": "node",
     "outDir": "./dist",
     "esModuleInterop": true,
