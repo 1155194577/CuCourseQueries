@@ -1,3 +1,4 @@
+import path from "path";
 import {
   CoursesArrayType,
   CourseType,
@@ -11,7 +12,7 @@ import {
 } from "../../types/courses";
 import { asyncReadJsonFile } from "../../utils/fileIO";
 import { paths } from "../../constant/paths";
-import { parse } from "path";
+// import { parse } from "path";
 export async function parseCourseData(
   localDir: string
 ): Promise<CoursesArrayType | []> {
@@ -117,7 +118,8 @@ async function convertCourseArrayToLessonArray(
 export const getLessonsArrayByProgramName = async (
   programName: string
 ): Promise<LessonArrayType> => {
-  const localDir: string = `${paths.coursesFolder}/${programName}.json`;
+  const dataPath: string = path.resolve("./../../data/courses");
+  const localDir: string = `${dataPath}/${programName}.json`;
   const coursesArray: CoursesArrayType = await parseCourseData(localDir);
   const lessonArray: LessonArrayType = await convertCourseArrayToLessonArray(
     programName,

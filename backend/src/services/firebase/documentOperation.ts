@@ -1,3 +1,4 @@
+import { FireBaseQueryType } from "../../types/fireBaseQuery";
 import { dbMap } from "./firebaseApp";
 
 export async function addDoc(
@@ -86,24 +87,25 @@ export async function delDoc(
   }
 }
 
-// export async function getDocByQuery(
-//   colName: string,
-//   firstQuery: [string, FirebaseFirestore.WhereFilterOp, any],
-//   secondQuery?: [string, FirebaseFirestore.WhereFilterOp, any]
-// ): Promise<FirebaseFirestore.DocumentData[]> {
-//   const colRef = db.collection(colName);
-//   let query: FirebaseFirestore.Query = colRef.where(
-//     firstQuery[0],
-//     firstQuery[1],
-//     firstQuery[2]
-//   );
-//   if (secondQuery) {
-//     query = query.where(secondQuery[0], secondQuery[1], secondQuery[2]);
-//   }
-//   const querySnapshot = await query.get();
-//   const data = querySnapshot.docs.map((doc) => doc.data());
-//   return data;
-// }
+export async function getDocByQuery(
+  dbName: string,
+  colName: string,
+  fireBaseQuery: FireBaseQueryType
+): Promise<FirebaseFirestore.DocumentData[]> {
+  const db: FirebaseFirestore.Firestore = dbMap[dbName];
+  const colRef = db.collection(colName);
+  let query: FirebaseFirestore.Query = colRef.where(
+    fireBaseQuery.field,
+    fireBaseQuery.operator,
+    fireBaseQuery.value
+  );
+  // if (secondQuery) {
+  //   query = query.where(secondQuery[0], secondQuery[1], secondQuery[2]);
+  // }
+  const querySnapshot = await query.get();
+  const data = querySnapshot.docs.map((doc) => doc.data());
+  return data;
+}
 
 // function main() {
 //   console.log("Testing documentOperation.ts");

@@ -1,12 +1,15 @@
 import path from "path";
 import { fileURLToPath } from "url";
-
+import * as url from "url";
+try {
+  const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+} catch (e) {
+  console.log(e);
+}
+const __filename = url.fileURLToPath(import.meta.url);
 // Convert import.meta.url to a file path
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-// Define the root of the project
-const projectRoot = path.resolve(__dirname, "../");
+const projectRoot = path.resolve(__filename, "..");
 
 // Define other paths relative to the project root
 export const paths = {

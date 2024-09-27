@@ -1,9 +1,10 @@
 import { sum } from "./db";
+// import { paths } from "./paths";
 
-describe("sum", () => {
-  it("should return the sum of two numbers", () => {
-    expect(sum(1, 2)).toBe(3);
-    expect(sum(-1, 1)).toBe(0);
-    expect(sum(0, 0)).toBe(0);
+describe("test const exportation", () => {
+  test("should get curr path", () => {
+    console.log(__dirname, __filename);
+    expect(__dirname).toBeDefined();
+    expect(__filename).toBeDefined();
   });
 });
