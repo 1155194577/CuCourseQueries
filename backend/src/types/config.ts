@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const FireBaseKeySchema = z.object({
+export const FireBaseKeySchema = z.object({
   type: z.string(),
   project_id: z.string(),
   private_key_id: z.string(),
@@ -14,4 +14,8 @@ const FireBaseKeySchema = z.object({
   universe_domain: z.string(),
 });
 
+export const portSchema = z.string().transform((val) => {
+  Number(val);
+});
+export type PortType = z.infer<typeof portSchema>;
 export type FireBaseKeyType = z.infer<typeof FireBaseKeySchema>;

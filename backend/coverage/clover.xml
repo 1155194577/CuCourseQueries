@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727345263730" clover="3.2.0">
-  <project timestamp="1727345263730" name="All files">
-    <metrics statements="105" coveredstatements="58" conditionals="19" coveredconditionals="4" methods="27" coveredmethods="11" elements="151" coveredelements="73" complexity="0" loc="105" ncloc="105" packages="4" files="6" classes="6"/>
+<coverage generated="1727401438559" clover="3.2.0">
+  <project timestamp="1727401438559" name="All files">
+    <metrics statements="110" coveredstatements="63" conditionals="19" coveredconditionals="4" methods="29" coveredmethods="13" elements="158" coveredelements="80" complexity="0" loc="110" ncloc="110" packages="4" files="6" classes="6"/>
     <package name="config">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="fireBaseKeyConfig.ts" path="/Users/hejinyu/Projects/cuCourseMap/backend/src/config/fireBaseKeyConfig.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
       </file>
     </package>
     <package name="constant">
@@ -19,7 +19,7 @@
       </file>
     </package>
     <package name="services.firebase">
-      <metrics statements="67" coveredstatements="35" conditionals="9" coveredconditionals="1" methods="13" coveredmethods="5"/>
+      <metrics statements="72" coveredstatements="40" conditionals="9" coveredconditionals="1" methods="15" coveredmethods="7"/>
       <file name="documentOperation.ts" path="/Users/hejinyu/Projects/cuCourseMap/backend/src/services/firebase/documentOperation.ts">
         <metrics statements="39" coveredstatements="11" conditionals="7" coveredconditionals="1" methods="9" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
@@ -63,27 +63,32 @@
         <line num="85" count="0" type="stmt"/>
       </file>
       <file name="documentsOperation.ts" path="/Users/hejinyu/Projects/cuCourseMap/backend/src/services/firebase/documentsOperation.ts">
-        <metrics statements="20" coveredstatements="16" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <metrics statements="25" coveredstatements="21" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="6"/>
         <line num="1" count="2" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="8" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="23" count="16" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
-        <line num="27" count="2" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="16" type="stmt"/>
         <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="34" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
-        <line num="39" count="16" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="46" count="16" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
       </file>
       <file name="firebaseApp.ts" path="/Users/hejinyu/Projects/cuCourseMap/backend/src/services/firebase/firebaseApp.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
