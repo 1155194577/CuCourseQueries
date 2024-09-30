@@ -3,7 +3,6 @@ import {
   getAllCollectionsIds,
   getAllDocsIds,
 } from "../services/firebase/documentsOperation";
-
 describe("test get course by id", () => {
   test("should fetch and return all course ids", async () => {
     const res: any = await getAllDocsIds(dbName.courseData, "AIST");
