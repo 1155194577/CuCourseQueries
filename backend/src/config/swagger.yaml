@@ -122,6 +122,103 @@ paths:
                       type: string
                 required:
                   - courseIds
+  /queries:
+    post:
+      summary: Get courses by a list of queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                queries:
+                 type: array
+                 items: 
+                  type: object
+                  properties:
+                      field:
+                        type: string
+                        example: courseCode 
+                      operator:
+                        type: string
+                        example: ==
+                      value:
+                        type: string
+                        example: ENGG2720
+      responses:
+          "200":
+            description: A json object containing course data
+            content:
+              application/json:
+                schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Course code
+              title:
+                type: string
+                description: Course title
+              career:
+                type: string
+                description: Career
+              units:
+                type: number
+                description: Units
+              grading:
+                type: string
+                description: Grading
+              components:
+                type: string
+                description: Components
+              campus:
+                type: string
+                description: Campus
+              academic_group:
+                type: string
+                description: Academic group
+              requirements:
+                type: string
+                description: Requirements
+                example: "requirement_not_found"
+              description:
+                type: string
+                description: Description
+                nullable: true
+              outcome:
+                type: string
+                description: Outcome
+                nullable: true
+              syllabus:
+                type: string
+                description: Syllabus
+                nullable: true
+              required_readings:
+                type: string
+                description: Required readings
+                nullable: true
+              recommended_readings:
+                type: string
+                description: Recommended readings
+                nullable: true
+              terms:
+                $ref: "#/components/schemas/TermMapSchema"
+                nullable: true
+              assessments:
+                $ref: "#/components/schemas/AssessmentSchema"
+                nullable: true
+            required:
+              - code
+              - title
+              - career
+              - units
+              - grading
+              - components
+              - campus
+              - academic_group
+              - requirements
+              
 components:
   schemas:
     LessonSchema:

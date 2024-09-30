@@ -13,6 +13,7 @@ export const postQueryController = async (req: Request, res: Response) => {
   }
   if (body.queries) {
     const queriesData = body.queries;
+    console.log("data", queriesData);
     const queryArray: FireBaseQueryType[] = [];
     const matchedLessons: LessonType[] = [];
     for (const query of queriesData) {
@@ -29,6 +30,8 @@ export const postQueryController = async (req: Request, res: Response) => {
     const responseData = {
       matches: matchedLessons,
     };
-    res.status(200).json(responseData);
+    console.log(responseData);
+    // res.status(200).json(responseData);
+    res.json(responseData);
   }
 };
