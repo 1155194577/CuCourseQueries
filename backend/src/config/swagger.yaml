@@ -4,7 +4,7 @@ info:
   description: API documentation for cuCourseMap backend
   version: 1.0.0
 servers:
-  - url: http://localhost:3000/api/v1
+  - url: http://3.87.135.112:3000/api/v1
     description: Local server
 paths:
   /courses:
