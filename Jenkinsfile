@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {    
+        stage('Checkout') {
+            steps {
+                // checkout 
+                checkout scm
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 // Install npm dependencies
