@@ -4,43 +4,47 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the specified branch
-                git branch: 'main', url: 'https://github.com/1155194577/CuCourseQueries.git'
+                // Checkout the code from the repository
+                git 'https://github.com/1155194577/CuCourseQueries.git'
             }
         }
-
+        
+        stage('Install Dependencies') {
+            steps {
+                // Install npm dependencies
+                sh 'npm install'
+            }
+        }
+        
+        stage('Run Tests') {
+            steps {
+                // Run the tests
+                sh 'npm test'
+            }
+        }
+        
         stage('Build') {
             steps {
-                // Run Maven build
-                sh 'mvn clean package'
+                // Build the application if needed
+                sh 'npm run build'
             }
         }
-
-        stage('Test') {
-            steps {
-                // Run unit tests
-                sh 'mvn test'
-            }
-        }
-
+        
         stage('Deploy') {
             steps {
-                // Deploy the application (customize this step)
-                echo 'Deploying application...'
-                // Add your deployment commands here
+                // Deploy the application
+                // This is a placeholder; replace it with your actual deployment command
+                sh 'npm run dev'
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
             echo 'Pipeline failed.'
-        }
-        always {
-            cleanWs()
         }
     }
 }
