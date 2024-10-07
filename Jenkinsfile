@@ -1,14 +1,7 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the code from the repository
-                git 'https://github.com/1155194577/CuCourseQueries.git'
-            }
-        }
-        
+    stages {    
         stage('Install Dependencies') {
             steps {
                 // Install npm dependencies
