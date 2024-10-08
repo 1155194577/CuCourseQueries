@@ -16,7 +16,7 @@ install:
 
 # Run tests
 script:
-  - npm test
+  - npm run test
 
 # Optional: Configure notifications
 notifications:
