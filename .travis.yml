@@ -8,18 +8,20 @@ node_js:
 branches:
   only:
     - main
-script:
-  - cd ./backend 
-  - ls 
-  
+    - develop
+
+# Navigate to the backend directory before running commands
+before_install:
+  - cd backend
+
 # Install dependencies
 install:
   - npm install
 
 # Run tests
 script:
+  - ls 
   - npm run test
-  - npm run dev 
 
 # Optional: Configure notifications
 notifications:
@@ -32,4 +34,4 @@ notifications:
 # Optional: Cache dependencies to speed up builds
 cache:
   directories:
-    - node_modules
+    - backend/node_modules
