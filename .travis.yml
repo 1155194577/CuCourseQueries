@@ -16,6 +16,8 @@ install:
 
 # Run tests
 script:
+  - ls 
+  - cd ./backend 
   - npm run test
 
 # Optional: Configure notifications
