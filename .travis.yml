@@ -7,8 +7,7 @@ node_js:
 # Specify the branch to build
 branches:
   only:
-    - main
-    - develop
+    - CICD
 
 # Navigate to the backend directory before running commands
 before_install:
