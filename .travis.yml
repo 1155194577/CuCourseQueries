@@ -1,0 +1,32 @@
+language: node_js
+node_js:
+  - "14"
+  - "16"
+  - "18"
+
+# Specify the branch to build
+branches:
+  only:
+    - main
+    - develop
+
+# Install dependencies
+install:
+  - npm install
+
+# Run tests
+script:
+  - npm test
+
+# Optional: Configure notifications
+notifications:
+  email:
+    recipients:
+      - 1155194577@link.cuhk.edu.hk
+    on_success: always
+    on_failure: always
+
+# Optional: Cache dependencies to speed up builds
+cache:
+  directories:
+    - node_modules
