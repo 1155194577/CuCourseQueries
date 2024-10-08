@@ -8,17 +8,18 @@ node_js:
 branches:
   only:
     - main
-    - develop
-
+script:
+  - cd ./backend 
+  - ls 
+  
 # Install dependencies
 install:
   - npm install
 
 # Run tests
 script:
-  - ls 
-  - cd ./backend 
   - npm run test
+  - npm run dev 
 
 # Optional: Configure notifications
 notifications:
